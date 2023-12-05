@@ -123,6 +123,7 @@ public class LunarCore {
         } catch (Exception exception) {
             LunarCore.getLogger().error("Unable to start the game server.", exception);
         }
+
         // Hook into shutdown event
         Runtime.getRuntime().addShutdownHook(new Thread(LunarCore::onShutdown));
 
@@ -240,4 +241,6 @@ public class LunarCore {
             return (this.flags & 0x2) == 0x2;
         }
     }
+
+    // Hiro was here
 }

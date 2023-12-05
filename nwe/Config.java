@@ -86,13 +86,15 @@ public class Config {
     @Getter
     public static class ServerOptions {
         public boolean autoCreateAccount = true;
-        public int entitySceneLimit = 2000;
+        public int sceneMaxEntites = 500;
         public boolean spendStamina = true;
         public boolean unlockAllChallenges = true;
         public int staminaRecoveryRate = 5 * 60;
         public int staminaReserveRecoveryRate = 18 * 60;
         public String language = "chs";
         public Set<String> defaultPermissions = Set.of("*");
+
+        public ServerProfile serverFriendInfo = new ServerProfile();
         public WelcomeMail welcomeMail = new WelcomeMail();
 
         public int getStaminaRecoveryRate() {
@@ -102,6 +104,17 @@ public class Config {
         public int getStaminaReserveRecoveryRate() {
             return staminaReserveRecoveryRate > 0 ? staminaReserveRecoveryRate : 1;
         }
+    }
+
+    @Getter
+    public static class ServerProfile {
+        public String name = "Mr.Su";
+        public String signature = "项目由Mr.Su编译打包！ 频道号：79ce679ob6";
+        public int level = 1;
+        public int headIcon = 201001;
+        public int chatBubbleId = 0;
+        public int displayAvatarId = 1001;
+        public int displayAvatarLevel = 1;
     }
 
     @Getter
