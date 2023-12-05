@@ -23,6 +23,8 @@ import emu.lunarcore.util.Handbook;
 import emu.lunarcore.util.JsonUtils;
 import lombok.Getter;
 
+import javax.swing.*;
+
 public class LunarCore {
     private static final Logger log = (Logger) LoggerFactory.getLogger(LunarCore.class);
     private static File configFile = new File("./config.json");
@@ -58,7 +60,7 @@ public class LunarCore {
 
     public static void main(String[] args) {
         // Start Server
-        LunarCore.getLogger().info("项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6");
+        JOptionPane.showMessageDialog(null,"项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6","消息提示",JOptionPane.WARNING_MESSAGE);
         LunarCore.getLogger().info("Starting Lunar Core...");
         LunarCore.getLogger().info("Git hash: " + getGitHash());
         LunarCore.getLogger().info("Game version: " + GameConstants.VERSION);
