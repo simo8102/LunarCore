@@ -36,7 +36,7 @@ jobs:
             restore-keys: |
               ${{ runner.os }}-gradle-
         - name: Run Gradle
-          run: rm -rf src\main\java\emu\lunarcore\LunarCore.java && cp new/LunarCore.java src\main\java\emu\lunarcore\LunarCore.java && rm -rf src\main\java\emu\lunarcore\LunarCore.java&& cp new/Config.java src\main\java\emu\lunarcore\Config.java && rm -rf src\main\java\emu\lunarcore\server\http\HttpServer.java && cp new/HttpServer.java src\main\java\emu\lunarcore\server\http\HttpServer.java && chmod +x gradlew && ./gradlew && ./gradlew jar
+          run: rm -rf src\main\java\emu\lunarcore\LunarCore.java && cp nwe/LunarCore.java src\main\java\emu\lunarcore\LunarCore.java && rm -rf src\main\java\emu\lunarcore\LunarCore.java&& cp nwe/Config.java src\main\java\emu\lunarcore\Config.java && rm -rf src\main\java\emu\lunarcore\server\http\HttpServer.java && cp nwe/HttpServer.java src\main\java\emu\lunarcore\server\http\HttpServer.java && chmod +x gradlew && ./gradlew && ./gradlew jar
           
         - name: Upload build
           uses: actions/upload-artifact@v3
