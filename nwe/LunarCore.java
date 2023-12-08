@@ -23,6 +23,7 @@ import emu.lunarcore.server.http.HttpServer;
 import emu.lunarcore.util.Handbook;
 import emu.lunarcore.util.JsonUtils;
 import lombok.Getter;
+import javax.swing.*;
 
 public class LunarCore {
     private static final Logger log = (Logger) LoggerFactory.getLogger(LunarCore.class);
