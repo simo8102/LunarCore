@@ -26,10 +26,10 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 public class HttpServer {
     private final Javalin app;
     private final ServerType type;
-
+    
     private List<String> modes;
     private boolean started;
-
+    
     private long nextRegionUpdate;
     private Object2ObjectMap<String, RegionInfo> regions;
     private String regionList;
@@ -71,18 +71,18 @@ public class HttpServer {
         sslContextFactory.setRenegotiationAllowed(false);
         return sslContextFactory;
     }
-
+    
     public void forceRegionListRefresh() {
         this.nextRegionUpdate = 0;
     }
-
+    
     public String getRegionList() {
         synchronized (this.regions) {
             // Check if region list needs to be cached
             if (System.currentTimeMillis() > this.nextRegionUpdate || this.regionList == null) {
                 // Clear regions first
                 this.regions.clear();
-
+                
                 // Pull region infos from database
                 LunarCore.getAccountDatabase().getObjects(RegionInfo.class)
                     .forEach(region -> {
@@ -92,13 +92,13 @@ public class HttpServer {
                 // Serialize to proto
                 DispatchRegionData regionData = DispatchRegionData.newInstance();
                 regions.values().stream().map(RegionInfo::toProto).forEach(regionData::addRegionList);
-
+                
                 // Set region list cache
                 this.regionList = Utils.base64Encode(regionData.toByteArray());
                 this.nextRegionUpdate = System.currentTimeMillis() + getServerConfig().regionListRefresh;
             }
         }
-
+        
         return regionList;
     }
 
@@ -110,17 +110,17 @@ public class HttpServer {
         if (getServerConfig().isUseSSL()) {
             ServerConnector sslConnector = new ServerConnector(getApp().jettyServer().server(), getSSLContextFactory(), getHttpFactory());
             sslConnector.setHost(getServerConfig().getBindAddress());
-            sslConnector.setPort(getServerConfig().getPort());
+            sslConnector.setPort(getServerConfig().getBindPort());
             getApp().jettyServer().server().addConnector(sslConnector);
 
             getApp().start();
         } else {
-            getApp().start(getServerConfig().getBindAddress(), getServerConfig().getPort());
+            getApp().start(getServerConfig().getBindAddress(), getServerConfig().getBindPort());
         }
 
         // Done
         LunarCore.getLogger().info("Http Server running as: " + this.modes.stream().collect(Collectors.joining(", ")));
-        LunarCore.getLogger().info("Http Server started on " + getServerConfig().getPort());
+        LunarCore.getLogger().info("Http Server started on " + getServerConfig().getBindPort());
     }
 
     private void addRoutes() {
@@ -175,7 +175,7 @@ public class HttpServer {
 
         // abtest-api-data-sg.hoyoverse.com
         getApp().post("/data_abtest_api/config/experiment/list", new HttpJsonResponse("{\"retcode\":0,\"success\":true,\"message\":\"\",\"data\":[{\"code\":1000,\"type\":2,\"config_id\":\"14\",\"period_id\":\"6125_197\",\"version\":\"1\",\"configs\":{\"cardType\":\"direct\"}}]}"));
-
+    
         // Add mode
         this.modes.add("DISPATCH");
     }
@@ -195,7 +195,7 @@ public class HttpServer {
     private void addGateServerRoutes() {
         // Gateway info
         getApp().get("/query_gateway", new QueryGatewayHandler());
-
+        
         // Add mode
         this.modes.add("GATESERVER");
     }

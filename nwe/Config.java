@@ -3,6 +3,8 @@ package emu.lunarcore;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gson.annotations.SerializedName;
+
 import emu.lunarcore.data.common.ItemParam;
 import lombok.Getter;
 
@@ -18,7 +20,7 @@ public class Config {
 
     public HttpServerConfig httpServer = new HttpServerConfig(8888);
     public GameServerConfig gameServer = new GameServerConfig(23301);
-
+    
     public ServerOptions serverOptions = new ServerOptions();
     public LogOptions logOptions = new LogOptions();
     public DownloadData downloadData = new DownloadData();
@@ -49,14 +51,35 @@ public class Config {
     @Getter
     private static class ServerConfig {
         public String bindAddress = "0.0.0.0";
+        @SerializedName(value = "bindPort", alternate = {"port"})
+        public int bindPort;
+        
+        // Will return bindAddress if publicAddress is null
         public String publicAddress = "127.0.0.1";
-        public int port;
-
+        // Will return bindPort if publicPort is null
+        public Integer publicPort;
+        
         public ServerConfig(int port) {
-            this.port = port;
+            this.bindPort = port;
+        }
+        
+        public String getPublicAddress() {
+            if (this.publicAddress != null && !this.publicAddress.isEmpty()) {
+                return this.publicAddress;
+            }
+            
+            return this.bindAddress;
+        }
+        
+        public int getPublicPort() {
+            if (this.publicPort != null && this.publicPort != 0) {
+                return this.publicPort;
+            }
+            
+            return this.bindPort;
         }
     }
-
+    
     @Getter
     public static class HttpServerConfig extends ServerConfig {
         public boolean useSSL = false;
@@ -65,9 +88,9 @@ public class Config {
         public HttpServerConfig(int port) {
             super(port);
         }
-
+        
         public String getDisplayAddress() {
-            return (useSSL ? "https" : "http") + "://" + publicAddress + ":" + port;
+            return (useSSL ? "https" : "http") + "://" + getPublicAddress() + ":" + getPublicPort();
         }
     }
 
@@ -82,7 +105,7 @@ public class Config {
             super(port);
         }
     }
-
+    
     @Getter
     public static class ServerOptions {
         public boolean autoCreateAccount = true;
@@ -91,21 +114,21 @@ public class Config {
         public boolean unlockAllChallenges = true;
         public int staminaRecoveryRate = 5 * 60;
         public int staminaReserveRecoveryRate = 18 * 60;
-        public String language = "chs";
+        public String language = "EN";
         public Set<String> defaultPermissions = Set.of("*");
-
+        
         public ServerProfile serverFriendInfo = new ServerProfile();
         public WelcomeMail welcomeMail = new WelcomeMail();
-
+        
         public int getStaminaRecoveryRate() {
             return staminaRecoveryRate > 0 ? staminaRecoveryRate : 1;
         }
-
+        
         public int getStaminaReserveRecoveryRate() {
             return staminaReserveRecoveryRate > 0 ? staminaReserveRecoveryRate : 1;
         }
     }
-
+    
     @Getter
     public static class ServerProfile {
         public String name = "Mr.Su";
@@ -116,16 +139,16 @@ public class Config {
         public int displayAvatarId = 1001;
         public int displayAvatarLevel = 1;
     }
-
+    
     @Getter
     public static class WelcomeMail {
         public String title;
         public String sender;
         public String content;
         public List<ItemParam> attachments;
-
+        
         public WelcomeMail() {
-            this.title = "星铁启动";
+             this.title = "星铁启动";
             this.sender = "Mr.Su";
             this.content = "欢迎访问星铁! 请将这些物品作为入门礼物。有关命令列表，请在服务器聊天窗口中键入/help。感谢 <a type=OpenURL1 href=https://github.com/Melledy/LunarCore>LunarCore</a> 项目支持.<br>项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6";
             this.attachments = List.of(
@@ -137,7 +160,7 @@ public class Config {
             );
         }
     }
-
+    
     @Getter
     public static class LogOptions {
         public boolean commands = true;
@@ -145,7 +168,7 @@ public class Config {
         public boolean packets = false;
         public boolean filterLoopingPackets = false;
     }
-
+    
     @Getter
     public static class DownloadData {
         public String assetBundleUrl = null;
