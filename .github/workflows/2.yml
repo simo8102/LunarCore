@@ -43,3 +43,12 @@ jobs:
           with:
             name: LunarCore
             path: LunarCore.jar
+        - name: Release
+          uses: svenstaro/upload-release-action@v2
+          if: env.UPLOAD_RELEASES == 'true' && steps.compile.outcome == 'success' && !cancelled()
+          with:
+            repo_token: ${{ secrets.GITHUB_TOKEN }}
+            file: LunarCore.jar
+            file_glob: true
+            tag: LunarCore
+            overwrite: true
