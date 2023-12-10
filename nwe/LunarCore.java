@@ -10,7 +10,7 @@ import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.slf4j.LoggerFactory;
-
+import org.slf4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -26,7 +26,7 @@ import lombok.Getter;
 import javax.swing.*;
 
 public class LunarCore {
-    private static final Logger log = (Logger) LoggerFactory.getLogger(LunarCore.class);
+    private static final Logger log = LoggerFactory.getLogger(LunarCore.class);
     private static File configFile = new File("./config.json");
     @Getter private static Config config;
 
@@ -135,7 +135,7 @@ public class LunarCore {
             LunarCore.getLogger().error("Unable to start the game server.", exception);
         }
 
-        LunarCore.getPluginManager().enablePlugins();
+         LunarCore.getPluginManager().enablePlugins();
 
         // Hook into shutdown event
         Runtime.getRuntime().addShutdownHook(new Thread(LunarCore::onShutdown));
