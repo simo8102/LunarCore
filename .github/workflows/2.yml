@@ -49,5 +49,5 @@ jobs:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
             file: LunarCore.jar
             file_glob: true
-            tag: LunarCore.jar
+            tag: ${{ steps.date.outputs.date }}
             overwrite: true
