@@ -111,6 +111,7 @@ public class Config {
     public static class ServerOptions {
         public boolean autoCreateAccount = true;
         public int sceneMaxEntites = 500;
+        public int maxCustomRelicLevel = 15;
         public boolean unlockAllChallenges = true;
         public boolean spendStamina = true;
         public int staminaRecoveryRate = 5 * 60;
