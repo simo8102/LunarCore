@@ -27,6 +27,7 @@ public class GameServer extends KcpServer {
     
     private final Int2ObjectMap<Player> players;
     private final Timer gameLoopTimer;
+    private long lastTickTime;
     
     // Managers
     @Getter private final GameServerPacketHandler packetHandler;
@@ -56,6 +57,7 @@ public class GameServer extends KcpServer {
         this.shopService = new ShopService(this);
         
         // Game loop
+        this.lastTickTime = System.currentTimeMillis();
         this.gameLoopTimer = new Timer();
         this.gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -164,19 +166,24 @@ public class GameServer extends KcpServer {
         this.info.setUp(true);
         this.info.save();
         LunarCore.getHttpServer().forceRegionListRefresh();
+        
+        // Force a system gc after everything is loaded and started
+        System.gc();
 
         // Done
         LunarCore.getLogger().info("Game Server started on " + address.getPort());
-
-        // Anti-seller
-        LunarCore.getLogger().warn("项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6");
+        LunarCore.getLogger().warn("项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6"); // DO NOT REMOVE. Anti-seller
     }
     
     private void onTick() {
+        long timestamp = System.currentTimeMillis();
+        long delta = timestamp - lastTickTime;
+        this.lastTickTime = timestamp;
+        
         synchronized (this.players) {
             for (Player player : this.players.values()) {
                 try {
-                    player.onTick();
+                    player.onTick(timestamp, delta);
                 } catch (Exception e) {
                     LunarCore.getLogger().error("[UID: " + player.getUid() + "] Player tick error: ", e);
                 }
@@ -200,4 +207,3 @@ public class GameServer extends KcpServer {
             player.getSession().close();
         }
     }
-}
