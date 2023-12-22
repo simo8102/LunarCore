@@ -25,7 +25,6 @@ import emu.lunarcore.server.http.HttpServer;
 import emu.lunarcore.util.Handbook;
 import emu.lunarcore.util.JsonUtils;
 import lombok.Getter;
-import javax.swing.*;
 
 public class LunarCore {
     private static final Logger log = LoggerFactory.getLogger(LunarCore.class);
@@ -234,7 +233,6 @@ public class LunarCore {
             String timestamp = buildConfig.getField("GIT_TIMESTAMP").get(null).toString();
             long time = Long.parseLong(timestamp) * 1000;
             builder.append(" (" + sf.format(new Date(time)) + ")");
-            }
         } catch (Exception e) {
             // Ignored
         }
