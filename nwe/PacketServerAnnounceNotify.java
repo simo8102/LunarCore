@@ -8,7 +8,7 @@ import emu.lunarcore.server.packet.CmdId;
 public class PacketServerAnnounceNotify extends BasePacket {
 
     public PacketServerAnnounceNotify() {
-        super(CmdId.ServerAnnounceNotify);
+        super(37);
 
         AnnounceData announceData = AnnounceData.newInstance()
             .setBeginTime(0L)
