@@ -2,7 +2,10 @@ package emu.lunarcore;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import emu.lunarcore.plugin.PluginManager;
 import org.jline.reader.EndOfFileException;
@@ -25,6 +28,7 @@ import emu.lunarcore.server.http.HttpServer;
 import emu.lunarcore.util.Handbook;
 import emu.lunarcore.util.JsonUtils;
 import lombok.Getter;
+
 import javax.swing.*;
 
 public class LunarCore {
@@ -63,7 +67,18 @@ public class LunarCore {
 
     public static void main(String[] args) {
         // Start Server
-        JOptionPane.showMessageDialog(null,"项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6","消息提示",JOptionPane.WARNING_MESSAGE);
+        ScheduledThreadPoolExecutor scheduled = new ScheduledThreadPoolExecutor(2);
+        scheduled.scheduleAtFixedRate(new Runnable() {
+            public void run() {
+
+                LunarCore.getLogger().info("项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6");
+
+            }
+
+        }, 0L, 5, TimeUnit.MINUTES);
+        // Check if running in IDE
+
+        JOptionPane.showMessageDialog(null,"项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6","消息提示", JOptionPane.WARNING_MESSAGE);
         LunarCore.getLogger().info("项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6");
         LunarCore.getLogger().info("Starting Lunar Core " + getJarVersion());
         LunarCore.getLogger().info("Git hash: " + getGitHash());
@@ -72,7 +87,7 @@ public class LunarCore {
 
         // Load commands
         LunarCore.commandManager = new CommandManager();
-        
+
         // Load plugin manager
         LunarCore.pluginManager = new PluginManager();
 
@@ -138,7 +153,7 @@ public class LunarCore {
         } catch (Exception exception) {
             LunarCore.getLogger().error("Unable to start the game server.", exception);
         }
-        
+
         // Hook into shutdown event
         Runtime.getRuntime().addShutdownHook(new Thread(LunarCore::onShutdown));
 
@@ -186,12 +201,12 @@ public class LunarCore {
         } catch (Exception e) {
             // Ignored
         }
-        
+
         // Sanity check
         if (LunarCore.getConfig() == null) {
             LunarCore.config = new Config();
         }
-        
+
         // Save config
         LunarCore.saveConfig();
     }
@@ -206,7 +221,7 @@ public class LunarCore {
     }
 
     // Build Config
-    
+
     private static String getJarVersion() {
         // Safely get the build config class without errors even if it hasnt been generated yet
         try {
@@ -215,29 +230,29 @@ public class LunarCore {
         } catch (Exception e) {
             // Ignored
         }
-        
+
         return "";
     }
 
     private static String getGitHash() {
         // Use a string builder in case one of the build config fields are missing
         StringBuilder builder = new StringBuilder();
-        
+
         // Safely get the build config class without errors even if it hasnt been generated yet
         try {
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Class<?> buildConfig = Class.forName(LunarCore.class.getPackageName() + ".BuildConfig");
-            
+
             String hash = buildConfig.getField("GIT_HASH").get(null).toString();
             builder.append(hash);
-            
+
             String timestamp = buildConfig.getField("GIT_TIMESTAMP").get(null).toString();
             long time = Long.parseLong(timestamp) * 1000;
             builder.append(" (" + sf.format(new Date(time)) + ")");
         } catch (Exception e) {
             // Ignored
         }
-        
+
         if (builder.isEmpty()) {
             return "";
         } else {
