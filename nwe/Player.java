@@ -624,12 +624,11 @@ public class Player implements Tickable {
                 }
             }
             case PROP_MAZE_PUZZLE -> {
-                // Finish puzzle
-                this.getScene().invokePropTrigger(PropTriggerType.PUZZLE_FINISH, prop.getGroupId(), 
+               
                 // Trigger event
                 this.getScene().invokePropTrigger(PropTriggerType.PUZZLE_FINISH, prop.getGroupId(), prop.getInstId());
                 //
-                return prop;
+              
             }
             default -> {
                
