@@ -615,9 +615,7 @@ public class Player implements Tickable {
         switch (prop.getExcel().getPropType()) {
             case PROP_TREASURE_CHEST -> {
                  if (oldState == PropState.ChestClosed && prop.getState() == PropState.ChestUsed) {
-                    // Handle drops
-                    var drops = this.getServer().getDropService().calculateDropsFromProp(prop.getPropId());
-                    this.getInventory().addItems(drops, true);
+                    if (oldState == PropState.ChestClosed && prop.getState() == PropState.ChestUsed) {
                     // Handle drops
                     var drops = this.getServer().getDropService().calculateDropsFromProp(prop.getPropId());
                     this.getInventory().addItems(drops, true);
