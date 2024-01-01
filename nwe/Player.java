@@ -614,25 +614,23 @@ public class Player implements Tickable {
         // Handle any extra interaction actions
         switch (prop.getExcel().getPropType()) {
             case PROP_TREASURE_CHEST -> {
-                 if (oldState == PropState.ChestClosed && prop.getState() == PropState.ChestUsed) {
-                    if (oldState == PropState.ChestClosed && prop.getState() == PropState.ChestUsed) {
+                if (oldState == PropState.ChestClosed && prop.getState() == PropState.ChestUsed) {
                     // Handle drops
                     var drops = this.getServer().getDropService().calculateDropsFromProp(prop.getPropId());
                     this.getInventory().addItems(drops, true);
                 }
             }
             case PROP_MAZE_PUZZLE -> {
-               
                 // Trigger event
                 this.getScene().invokePropTrigger(PropTriggerType.PUZZLE_FINISH, prop.getGroupId(), prop.getInstId());
-                //
-              
             }
             default -> {
-               
+                
             }
         }
-         return prop;
+        
+        // Return prop when we are done
+        return prop;
     }
 
     public void onMove() {
