@@ -2,7 +2,7 @@ package emu.lunarcore;
 
 import java.util.List;
 import java.util.Set;
-
+import java.util.Date;
 import com.google.gson.annotations.SerializedName;
 
 import emu.lunarcore.data.common.ItemParam;
@@ -22,6 +22,7 @@ public class Config {
     public GameServerConfig gameServer = new GameServerConfig(23301);
     
     public ServerOptions serverOptions = new ServerOptions();
+    public ServerTime serverTime = new ServerTime();
     public ServerRates serverRates = new ServerRates();
     public LogOptions logOptions = new LogOptions();
     public DownloadData downloadData = new DownloadData();
@@ -105,6 +106,12 @@ public class Config {
         public GameServerConfig(int port) {
             super(port);
         }
+    }
+
+    @Getter 
+    public static class ServerTime {
+        public boolean spoofTime = false;
+        public Date spoofDate = new Date(1705276800000L); // January 15, 2024 12:00:00 AM (GMT)
     }
     
     @Getter
