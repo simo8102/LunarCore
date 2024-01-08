@@ -45,7 +45,7 @@ import emu.lunarcore.game.scene.Scene;
 import emu.lunarcore.game.scene.SceneBuff;
 import emu.lunarcore.game.scene.entity.EntityProp;
 import emu.lunarcore.game.scene.entity.GameEntity;
-import emu.lunarcore.game.scene.triggers.PropTriggerType;
+
 import emu.lunarcore.proto.BoardDataSyncOuterClass.BoardDataSync;
 import emu.lunarcore.proto.FriendOnlineStatusOuterClass.FriendOnlineStatus;
 import emu.lunarcore.proto.HeadIconOuterClass.HeadIcon;
@@ -68,6 +68,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
+import emu.lunarcore.game.enums.PropType;
 
 @Entity(value = "players", useDiscriminator = false)
 @Getter
@@ -606,15 +607,17 @@ public class Player implements Tickable {
 
         // Save old state
         PropState oldState = prop.getState();
+         PropState newState = interactExcel.getTargetState();
 
         // Set group and prop state
-        this.sendPacket(new PacketGroupStateChangeScNotify(getEntryId(), prop.getGroupId(), interactExcel.getTargetState()));
+        this.sendPacket(new PacketGroupStateChangeScNotify(getEntryId(), prop.getGroupId(), newState));
+        prop.setState(newState);
         prop.setState(interactExcel.getTargetState());
 
         // Handle any extra interaction actions
         switch (prop.getExcel().getPropType()) {
             case PROP_TREASURE_CHEST -> {
-                if (oldState == PropState.ChestClosed && prop.getState() == PropState.ChestUsed) {
+                if (oldState == PropState.ChestClosed && newState == PropState.ChestUsed) {
                     // Handle drops
                     var drops = this.getServer().getDropService().calculateDropsFromProp(prop.getPropId());
                     this.getInventory().addItems(drops, true);
@@ -622,8 +625,18 @@ public class Player implements Tickable {
             }
             case PROP_MAZE_PUZZLE -> {
                 // Trigger event
-                this.getScene().invokePropTrigger(PropTriggerType.PUZZLE_FINISH, prop.getGroupId(), prop.getInstId());
-            }
+                if (newState == PropState.Open || newState == PropState.Closed) {
+                    // Unlock everything in the prop's group
+                    for (var p : getScene().getEntitiesByGroup(EntityProp.class, prop.getGroupId())) {
+                        if (p.getPropType() == PropType.PROP_TREASURE_CHEST) {
+                            p.setState(PropState.ChestClosed);
+                        } else if (p.getPropType() == PropType.PROP_MAZE_PUZZLE) {
+                            // Skip
+                        } else {
+                            p.setState(PropState.Open);
+                        }
+                    }
+                }
             default -> {
                 
             }
