@@ -637,8 +637,9 @@ public class Player implements Tickable {
                         }
                     }
                 }
+            }
             default -> {
-                
+                // Skip
             }
         }
         
