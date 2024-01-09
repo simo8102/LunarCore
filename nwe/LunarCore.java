@@ -81,7 +81,7 @@ public class LunarCore {
         }, 0L, 5, TimeUnit.MINUTES);
         // Check if running in IDE
 
-        JOptionPane.showMessageDialog(null,"项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6","消息提示", JOptionPane.WARNING_MESSAGE);
+     //   JOptionPane.showMessageDialog(null,"项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6","消息提示", JOptionPane.WARNING_MESSAGE);
         LunarCore.getLogger().info("项目永久免费，倒卖者死全家！！项目由Mr.Su编译打包！ 频道号：79ce679ob6");
         LunarCore.getLogger().info("Starting Lunar Core " + getJarVersion());
         LunarCore.getLogger().info("Git hash: " + getGitHash());
