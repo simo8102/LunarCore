@@ -51,8 +51,8 @@ jobs:
           uses: svenstaro/upload-release-action@v2
           with:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: /home/runner/work/LunarCore/LunarCore/LunarCore.jar
+            file: LunarCore.jar
             file_glob: true
-            tag: LunarCore - ${{ steps.date.outputs.today }}
+            tag: ${{ steps.date.outputs.today }}
             overwrite: true
 
