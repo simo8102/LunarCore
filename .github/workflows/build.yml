@@ -43,8 +43,9 @@ jobs:
             name: LunarCore
             path: LunarCore.jar
 
-        - name: Set current date as env variable
-          run: echo "NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+        - name: Get current date
+          id: date
+          run: echo "::set-output name=today::$(date +'%Y-%m-%d')"
 
         - name: Upload Firmware to Release
           uses: svenstaro/upload-release-action@v2
@@ -52,5 +53,6 @@ jobs:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
             file: LunarCore.jar
             file_glob: true
-            tag: LunarCore - $NOW
+            tag: LunarCore - ${{ steps.date.outputs.today }}
             overwrite: true
+
