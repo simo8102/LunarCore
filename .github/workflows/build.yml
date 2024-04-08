@@ -42,7 +42,6 @@ jobs:
           with:
             name: LunarCore
             path: LunarCore.jar
-            run: ls
 
         - name: Get current date
           id: date
@@ -52,7 +51,7 @@ jobs:
           uses: svenstaro/upload-release-action@v2
           with:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: LunarCore.jar
+            file: /home/runner/work/LunarCore/LunarCore/LunarCore.jar
             file_glob: true
             tag: LunarCore - ${{ steps.date.outputs.today }}
             overwrite: true
