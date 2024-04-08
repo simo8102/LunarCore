@@ -42,6 +42,7 @@ jobs:
           with:
             name: LunarCore
             path: LunarCore.jar
+            run: ls
 
         - name: Get current date
           id: date
