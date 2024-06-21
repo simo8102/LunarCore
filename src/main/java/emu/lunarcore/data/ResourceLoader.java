@@ -207,15 +207,15 @@ public class ResourceLoader {
         }
     }
 
-    // Might be better to cache
+ // Might be better to cache
     private static void loadFloorInfos() {
         // Load floor infos
         LunarCore.getLogger().info("Loading floor infos... this may take a while.");
-        File floorDir = new File(LunarCore.getConfig().getResourceDir() + "/Config/LevelOutput/Floor/");
+        File floorDir = new File(LunarCore.getConfig().getResourceDir() + "/Config/LevelOutput/RuntimeFloor/");
         boolean missingGroupInfos = false;
 
         if (!floorDir.exists()) {
-            LunarCore.getLogger().warn("Floor infos are missing, please check your resources folder: {resources}/Config/LevelOutput/Floor. Teleports and natural world spawns may not work!");
+            LunarCore.getLogger().warn("Floor infos are missing, please check your resources folder: {resources}/Config/LevelOutput/RuntimeFloor. Teleports and natural world spawns may not work!");
             return;
         }
 
@@ -247,6 +247,13 @@ public class ResourceLoader {
                     GroupInfo group = gson.fromJson(reader, GroupInfo.class);
                     group.setId(simpleGroup.getID());
                     
+                    // Hacky way to load only groups that arent required for main missions
+                    if (group.getOwnerMainMissionID() > 0 && group.getOwnerMainMissionID() < 2000000) {
+                        continue;
+                    }
+                    
+                    // Load groups into the floor info
+                    floor.getGroupList().add(group);
                     floor.getGroups().put(simpleGroup.getID(), group);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -265,7 +272,7 @@ public class ResourceLoader {
         
         // Notify the server owner if we are missing any files
         if (missingGroupInfos) {
-            LunarCore.getLogger().warn("Group infos are missing, please check your resources folder: {resources}/Config/LevelOutput/Group. Teleports, monster battles, and natural world spawns may not work!");
+            LunarCore.getLogger().warn("Group infos are missing, please check your resources folder: {resources}/Config/LevelOutput/SharedRuntimeGroup. Teleports, monster battles, and natural world spawns may not work!");
         }
         
         // Done
@@ -366,7 +373,10 @@ public class ResourceLoader {
 
     private static void loadRogueMapGen() {
         File file = new File(LunarCore.getConfig().getDataDir() + "/RogueMapGen.json");
-        if (!file.exists()) return;
+        if (!file.exists()) {
+            LunarCore.getLogger().warn("RogueMapGen not found in data folder. Simulated universe will not work.");
+            return;
+        }
 
         try (FileReader reader = new FileReader(file)) {
             Map<Integer, int[]> rogue = gson.fromJson(reader, TypeToken.getParameterized(Map.class, Integer.class, int[].class).getType());

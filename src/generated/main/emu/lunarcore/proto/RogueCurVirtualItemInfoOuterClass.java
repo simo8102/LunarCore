@@ -19,13 +19,9 @@ public final class RogueCurVirtualItemInfoOuterClass {
     private static final long serialVersionUID = 0L;
 
     /**
-     * <pre>
-     *  idk, isnt being used by official server
-     * </pre>
-     *
-     * <code>optional uint32 cur_rogue_ability_point = 1;</code>
+     * <code>optional uint32 cur_talent_coin = 4;</code>
      */
-    private int curRogueAbilityPoint;
+    private int curTalentCoin;
 
     /**
      * <code>optional uint32 cur_rogue_coin = 12;</code>
@@ -43,55 +39,39 @@ public final class RogueCurVirtualItemInfoOuterClass {
     }
 
     /**
-     * <pre>
-     *  idk, isnt being used by official server
-     * </pre>
-     *
-     * <code>optional uint32 cur_rogue_ability_point = 1;</code>
-     * @return whether the curRogueAbilityPoint field is set
+     * <code>optional uint32 cur_talent_coin = 4;</code>
+     * @return whether the curTalentCoin field is set
      */
-    public boolean hasCurRogueAbilityPoint() {
+    public boolean hasCurTalentCoin() {
       return (bitField0_ & 0x00000001) != 0;
     }
 
     /**
-     * <pre>
-     *  idk, isnt being used by official server
-     * </pre>
-     *
-     * <code>optional uint32 cur_rogue_ability_point = 1;</code>
+     * <code>optional uint32 cur_talent_coin = 4;</code>
      * @return this
      */
-    public RogueCurVirtualItemInfo clearCurRogueAbilityPoint() {
+    public RogueCurVirtualItemInfo clearCurTalentCoin() {
       bitField0_ &= ~0x00000001;
-      curRogueAbilityPoint = 0;
+      curTalentCoin = 0;
       return this;
     }
 
     /**
-     * <pre>
-     *  idk, isnt being used by official server
-     * </pre>
-     *
-     * <code>optional uint32 cur_rogue_ability_point = 1;</code>
-     * @return the curRogueAbilityPoint
+     * <code>optional uint32 cur_talent_coin = 4;</code>
+     * @return the curTalentCoin
      */
-    public int getCurRogueAbilityPoint() {
-      return curRogueAbilityPoint;
+    public int getCurTalentCoin() {
+      return curTalentCoin;
     }
 
     /**
-     * <pre>
-     *  idk, isnt being used by official server
-     * </pre>
-     *
-     * <code>optional uint32 cur_rogue_ability_point = 1;</code>
-     * @param value the curRogueAbilityPoint to set
+     * <code>optional uint32 cur_talent_coin = 4;</code>
+     * @param value the curTalentCoin to set
      * @return this
      */
-    public RogueCurVirtualItemInfo setCurRogueAbilityPoint(final int value) {
+    public RogueCurVirtualItemInfo setCurTalentCoin(final int value) {
       bitField0_ |= 0x00000001;
-      curRogueAbilityPoint = value;
+      curTalentCoin = value;
       return this;
     }
 
@@ -137,7 +117,7 @@ public final class RogueCurVirtualItemInfoOuterClass {
       cachedSize = other.cachedSize;
       if ((bitField0_ | other.bitField0_) != 0) {
         bitField0_ = other.bitField0_;
-        curRogueAbilityPoint = other.curRogueAbilityPoint;
+        curTalentCoin = other.curTalentCoin;
         curRogueCoin = other.curRogueCoin;
       }
       return this;
@@ -149,8 +129,8 @@ public final class RogueCurVirtualItemInfoOuterClass {
         return this;
       }
       cachedSize = -1;
-      if (other.hasCurRogueAbilityPoint()) {
-        setCurRogueAbilityPoint(other.curRogueAbilityPoint);
+      if (other.hasCurTalentCoin()) {
+        setCurTalentCoin(other.curTalentCoin);
       }
       if (other.hasCurRogueCoin()) {
         setCurRogueCoin(other.curRogueCoin);
@@ -165,7 +145,7 @@ public final class RogueCurVirtualItemInfoOuterClass {
       }
       cachedSize = -1;
       bitField0_ = 0;
-      curRogueAbilityPoint = 0;
+      curTalentCoin = 0;
       curRogueCoin = 0;
       return this;
     }
@@ -190,15 +170,15 @@ public final class RogueCurVirtualItemInfoOuterClass {
       }
       RogueCurVirtualItemInfo other = (RogueCurVirtualItemInfo) o;
       return bitField0_ == other.bitField0_
-        && (!hasCurRogueAbilityPoint() || curRogueAbilityPoint == other.curRogueAbilityPoint)
+        && (!hasCurTalentCoin() || curTalentCoin == other.curTalentCoin)
         && (!hasCurRogueCoin() || curRogueCoin == other.curRogueCoin);
     }
 
     @Override
     public void writeTo(final ProtoSink output) throws IOException {
       if ((bitField0_ & 0x00000001) != 0) {
-        output.writeRawByte((byte) 8);
-        output.writeUInt32NoTag(curRogueAbilityPoint);
+        output.writeRawByte((byte) 32);
+        output.writeUInt32NoTag(curTalentCoin);
       }
       if ((bitField0_ & 0x00000002) != 0) {
         output.writeRawByte((byte) 96);
@@ -210,7 +190,7 @@ public final class RogueCurVirtualItemInfoOuterClass {
     protected int computeSerializedSize() {
       int size = 0;
       if ((bitField0_ & 0x00000001) != 0) {
-        size += 1 + ProtoSink.computeUInt32SizeNoTag(curRogueAbilityPoint);
+        size += 1 + ProtoSink.computeUInt32SizeNoTag(curTalentCoin);
       }
       if ((bitField0_ & 0x00000002) != 0) {
         size += 1 + ProtoSink.computeUInt32SizeNoTag(curRogueCoin);
@@ -225,9 +205,9 @@ public final class RogueCurVirtualItemInfoOuterClass {
       int tag = input.readTag();
       while (true) {
         switch (tag) {
-          case 8: {
-            // curRogueAbilityPoint
-            curRogueAbilityPoint = input.readUInt32();
+          case 32: {
+            // curTalentCoin
+            curTalentCoin = input.readUInt32();
             bitField0_ |= 0x00000001;
             tag = input.readTag();
             if (tag != 96) {
@@ -261,7 +241,7 @@ public final class RogueCurVirtualItemInfoOuterClass {
     public void writeTo(final JsonSink output) throws IOException {
       output.beginObject();
       if ((bitField0_ & 0x00000001) != 0) {
-        output.writeUInt32(FieldNames.curRogueAbilityPoint, curRogueAbilityPoint);
+        output.writeUInt32(FieldNames.curTalentCoin, curTalentCoin);
       }
       if ((bitField0_ & 0x00000002) != 0) {
         output.writeUInt32(FieldNames.curRogueCoin, curRogueCoin);
@@ -276,11 +256,11 @@ public final class RogueCurVirtualItemInfoOuterClass {
       }
       while (!input.isAtEnd()) {
         switch (input.readFieldHash()) {
-          case 1423162144:
-          case 1565581335: {
-            if (input.isAtField(FieldNames.curRogueAbilityPoint)) {
+          case -658043907:
+          case 569371269: {
+            if (input.isAtField(FieldNames.curTalentCoin)) {
               if (!input.trySkipNullValue()) {
-                curRogueAbilityPoint = input.readUInt32();
+                curTalentCoin = input.readUInt32();
                 bitField0_ |= 0x00000001;
               }
             } else {
@@ -353,7 +333,7 @@ public final class RogueCurVirtualItemInfoOuterClass {
      * Contains name constants used for serializing JSON
      */
     static class FieldNames {
-      static final FieldName curRogueAbilityPoint = FieldName.forField("curRogueAbilityPoint", "cur_rogue_ability_point");
+      static final FieldName curTalentCoin = FieldName.forField("curTalentCoin", "cur_talent_coin");
 
       static final FieldName curRogueCoin = FieldName.forField("curRogueCoin", "cur_rogue_coin");
     }

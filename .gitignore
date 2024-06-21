@@ -71,7 +71,9 @@ tmp/
 # Lunar Core extra
 Lunar Core Handbook.txt
 config.json
+hotfix.json
 *.mv
 *.exe
+*.p12
 BuildConfig.java
 Test.java
